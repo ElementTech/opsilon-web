@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { buffer, bufferCount, catchError, concatAll, concatMap, delay, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
+import { buffer, bufferCount, catchError, concatAll, concatMap, delay, finalize, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Filter } from '@lib/pipes/filter.pipe';
-import {NgPipesModule,GroupByPipe} from 'ngx-pipes';
+import {NgPipesModule} from 'ngx-pipes';
 import {LogMonitorModule} from 'ngx-log-monitor';
 import {LogMessage} from 'ngx-log-monitor';
 import { ThemeService } from '@lib/services';
@@ -13,7 +13,6 @@ import { AppTheme } from '@lib/services/theme';
 @Component({
   standalone: true,
   imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,Filter],
-  providers:[GroupByPipe],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.css'],
 })
@@ -45,7 +44,7 @@ export class ProfilePage implements OnInit {
   workflow!: string | null;
   workflows!: Observable<any> | null;
   id: string | undefined;
-  history: Observable<any> | undefined;
+  history: any[] = [];
   constructor(private _themeService: ThemeService,private ApiService: ApiService,private _activatedRoute: ActivatedRoute) {
     this.repo = this._activatedRoute.snapshot.paramMap.get('repo');
     this.workflow = this._activatedRoute.snapshot.paramMap.get('workflow');
@@ -61,11 +60,18 @@ export class ProfilePage implements OnInit {
     this.workflows = this.ApiService.get("list")
     this.updateHistory()
   }
-
+  predicate = (value: any, index: number, array: any[]): boolean => {
+    return (value.skipped === true) || (value.result === true);
+  };
   updateHistory(){
     this.ApiService.getWorkflowID(this.workflow,this.repo).subscribe(id=>{
-      this.history = this.ApiService.getWorkflowHistory(id)
-      this.ApiService.getWorkflowHistory(id).subscribe(data=>console.log(data))
+      this.ApiService.getWorkflowHistory(id).subscribe(data=>{
+        this.history = data.map((i:any)=>{
+          return Object.assign({}, i.map((item: { Key: any;Value:any; })=>{return {[item.Key]:item.Value}}).reduce((current: any, next: any) => {
+            return { ...current, ...next};
+          }, {}))
+        })
+      })
     })
   }
 
@@ -107,7 +113,7 @@ export class ProfilePage implements OnInit {
             delay(1000),
             map((i:any)=> {
             return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}
-          })
+          }),finalize(()=>this.updateHistory())
         );
 
 

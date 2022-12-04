@@ -6,7 +6,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "angular-boilerplate": {
+    "opsilon": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -23,7 +23,7 @@
             "allowedCommonJsDependencies": [
               "highlight.js"
             ],
-            "outputPath": "dist/angular-boilerplate",
+            "outputPath": "dist/opsilon",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "angular-boilerplate:build:production"
+              "browserTarget": "opsilon:build:production"
             },
             "development": {
-              "browserTarget": "angular-boilerplate:build:development",
+              "browserTarget": "opsilon:build:development",
               "proxyConfig": "src/proxy.conf.json"
             }
           },
@@ -103,5 +103,5 @@
       }
     }
   },
-  "defaultProject": "angular-boilerplate"
+  "defaultProject": "opsilon"
 }

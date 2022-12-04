@@ -1,21 +1,16 @@
-<h1 align="center">Angular Boilerplate</h1>
+<h1 align="center">Opsilon Web</h1>
 
 <p align="center">
-  <img src="https://img.icons8.com/ios-filled/150/000000/angularjs.png" alt="angular-logo" width="120px" height="120px"/>
+  <img src="https://cdn3.iconfinder.com/data/icons/st-patricks-1/64/drum-music-instrument-multimedia-percussion-512.png" alt="angular-logo" width="120px" height="120px"/>
   <br>
-  <i>Lightweight & minimalistic Angular starter</i>
-  <br>
-</p>
-
-<p align="center">
-  <a href="https://angularboilerplate.vercel.app"><strong>https://angularboilerplate.vercel.app</strong></a>
+  <i>GUI for Running and Viewing Opsilon Workflows</i>
   <br>
 </p>
 
 <p align="center">
   <a href="CONTRIBUTING.md">Contributing Guidelines</a>
   ·
-  <a href="https://github.com/juanmesa2097/angular-boilerplate/issues">Submit an Issue</a>
+  <a href="https://github.com/jatalocks/opsilon-web/issues">Submit an Issue</a>
   <br>
   <br>
 </p>
