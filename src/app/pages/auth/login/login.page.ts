@@ -18,6 +18,7 @@ export class LoginPage {
     private _authService: AuthService,
   ) {
     this._callbackURL = this._activatedRoute.snapshot.queryParamMap.get('callbackURL') || `/`;
+    this.onClickSignIn() // auto-login. No auth for now.
   }
 
   onClickSignIn(): void {

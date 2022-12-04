@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-
+import { catchError, map, Observable, of } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 @Component({
   selector: 'app-logo',
   standalone: true,
@@ -10,4 +11,10 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./logo.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LogoComponent {}
+export class LogoComponent implements OnInit {
+  constructor(private ApiService: ApiService){}
+  version!: Observable<Text>;
+  ngOnInit() {
+    this.version = this.ApiService.getVersion()
+  }
+}
