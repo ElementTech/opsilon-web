@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, KeyValue } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
@@ -10,9 +10,11 @@ import {LogMonitorModule} from 'ngx-log-monitor';
 import {LogMessage} from 'ngx-log-monitor';
 import { ThemeService } from '@lib/services';
 import { AppTheme } from '@lib/services/theme';
+import {NgxGraphModule} from '@swimlane/ngx-graph'
+
 @Component({
   standalone: true,
-  imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,Filter],
+  imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,NgxGraphModule,Filter],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.css'],
 })
@@ -52,7 +54,18 @@ export class ProfilePage implements OnInit {
   currentTheme: any;
   private _destroy$ = new Subject();
 
+  node1 = {id: 'Node 1', width: 100, height: 50};
+  node2 = {id: 'Node 2', width: 100, height: 50};
+  edge1 = {src: this.node1, dest: this.node2, points: []};
+  myGraphData = {
+    nodes: [this.node1, this.node2],
+    edges: [this.edge1],
+  };
+
   ngOnInit(){
+
+
+
     this._themeService.currentTheme$
       .pipe(takeUntil(this._destroy$))
       .subscribe((theme) => (this.currentTheme = (theme?.toString() == "system" ? "light" : theme?.toString())));
@@ -60,9 +73,14 @@ export class ProfilePage implements OnInit {
     this.workflows = this.ApiService.get("list")
     this.updateHistory()
   }
+
   predicate = (value: any, index: number, array: any[]): boolean => {
     return (value.skipped === true) || (value.result === true);
   };
+  // Order by ascending property value
+  valueAscOrder = (a: any, b: any): number => {
+    return b.value[0].createddate.localeCompare(a.value[0].createddate);
+  }
   updateHistory(){
     this.ApiService.getWorkflowID(this.workflow,this.repo).subscribe(id=>{
       this.ApiService.getWorkflowHistory(id).subscribe(data=>{
@@ -124,6 +142,7 @@ export class ProfilePage implements OnInit {
       }
     })
   }
+
 }
 
 

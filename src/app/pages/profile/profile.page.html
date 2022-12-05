@@ -1,4 +1,5 @@
 
+
 <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 mb-3 justify-center text-center">
 
   <button (click)="play()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
@@ -10,9 +11,8 @@
   <a  class="h-100 block p-6 mb-3 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">History</h5>
     <div class="font-normal text-gray-700 dark:text-gray-400">
-
       <ul class="space-y-1 max-w-md list-inside text-gray-500 dark:text-gray-400" *ngIf="history.length !== 0">
-        <li class="flex items-center pb-2"  *ngFor="let w of (history | orderBy:'createddate' | groupBy:'runid' | keyvalue); index as i">
+        <li class="flex items-center pb-2"  *ngFor="let w of (history | groupBy:'runid' | keyvalue: valueAscOrder ); index as i">
             <!-- <i class="fa fa-2x fa-question-circle" aria-hidden="true"></i>&nbsp;  | groupBy: 'runid' -->
 
         <div *ngIf="(w.value |every: predicate); else elseDanger" id="toast-success" class="flex items-center  w-full max-w-xs text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800" role="alert">
@@ -42,17 +42,25 @@
 
       <a  class="block p-6 mb-3 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{w.ID}} <small> - {{w.Repo}}</small></h5>
+
         <div class="font-normal text-gray-700 dark:text-gray-400">
 
           <ul class="space-y-1 max-w-md list-inside text-gray-500 dark:text-gray-400">
+
+
             <li class="flex items-center pb-2" *ngFor="let stage of w.Stages">
-                <!-- <i class="fa fa-2x fa-question-circle" aria-hidden="true"></i>&nbsp; -->
-                {{stage.ID}}
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                  {{stage.Stage}}
+                </span>
+                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                  {{stage.ID}}
+                </span>
             </li>
         </ul>
 
         </div>
       </a>
+
 
 
       <a  class="col-span-3 block p-6 mb-3 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
