@@ -2,8 +2,8 @@
   <!-- prettier-ignore -->
   <img src="https://cdn3.iconfinder.com/data/icons/st-patricks-1/64/drum-music-instrument-multimedia-percussion-512.png" class="iconify iconify--vscode-icons" width="32" height="32">
   <span class="text-xl tracking-tighter font-medium md:hidden"> OP </span>
-  <span class="text-xl tracking-tighter font-medium hidden md:inline-block"> Opsilon </span>
-  <div *ngIf="version | async as obs; else loading">
+  <span class="text-xl tracking-tighter font-medium hidden md:inline-block dark:text-white"> Opsilon </span>
+  <div *ngIf="version | async as obs; else loading" class="dark:text-white">
     <small>🟢 {{ obs }}</small>
   </div>
   <ng-template #loading><small>🔴</small></ng-template>
