@@ -23,7 +23,7 @@ export class ProfilePage implements OnInit {
   restoredLogs: LogMessage[] = [
 
   ];
-
+  status = "Not Running"
   logs: LogMessage[] = [
     {message: 'A simple log message'},
     {message: 'A success message', type: 'SUCCESS'},
@@ -114,7 +114,7 @@ export class ProfilePage implements OnInit {
     this.workflows?.subscribe(items=>{
       const chosen = items.filter((item: { ID: string | null; Repo: string | null; Input: string | any[]; })=>(item.ID===this.workflow)&&(item.Repo===this.repo)&&(inputs.length==item.Input.length))
       if (chosen.length != 0){
-
+        this.status="Running..."
 
         this.logStream$ = this.ApiService.runWorkflow({
           Args: inputMap,
@@ -125,7 +125,7 @@ export class ProfilePage implements OnInit {
             delay(1000),
             map((i:any)=> {
             return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}
-          }),finalize(()=>this.updateHistory())
+          }),finalize(()=>{this.status="Not Running";this.updateHistory()})
         );
 
 
