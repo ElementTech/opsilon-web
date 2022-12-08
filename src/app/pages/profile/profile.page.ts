@@ -21,11 +21,7 @@ import {NgxGraphModule} from '@swimlane/ngx-graph'
 
 export class ProfilePage implements OnInit {
   restoredLogs: LogMessage[] = [
-    {message: 'A simple restored log message'},
-    {message: 'A success restored message', type: 'SUCCESS'},
-    {message: 'A warning restored message', type: 'WARN'},
-    {message: 'An error restored message', type: 'ERR'},
-    {message: 'An info restored message', type: 'INFO'},
+
   ];
 
   logs: LogMessage[] = [
@@ -102,6 +98,12 @@ export class ProfilePage implements OnInit {
       default:
         return
     }
+  }
+  restoreLogs(logs: string[]){
+    this.restoredLogs = logs.map((item: string)=>{
+      return {message: item}
+    })
+
   }
   play() {
     const inputs = Array.prototype.slice.call(document.querySelectorAll('input[name=input]'))
