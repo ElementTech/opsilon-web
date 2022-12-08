@@ -28,8 +28,8 @@ export class ApiService {
   getWorkflowID(w:any,r:any): Observable<any> {
     return this.http.get(`${this.baseURL}/run/id?workflow=${w}&repo=${r}`,{responseType:'text'})
   }
-  getWorkflowHistory(id:any): Observable<any> {
-    return this.http.get(`${this.baseURL}/run/list?workflow=${id}`,{responseType:'json'})
+  getWorkflowHistory(w:any,r:any): Observable<any> {
+    return this.http.get(`${this.baseURL}/run/history?workflow=${w}&repo=${r}`,{responseType:'json'})
   }
   // here is a simple ndjson parser implementation I found:
   parse(data: string): any[] {

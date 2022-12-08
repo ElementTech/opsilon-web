@@ -46,7 +46,7 @@ export class ProfilePage implements OnInit {
   workflow!: string | null;
   workflows!: Observable<any> | null;
   id: string | undefined;
-  history: any[] = [];
+  history: Observable<any> | null | undefined;
   constructor(private _themeService: ThemeService,private ApiService: ApiService,private _activatedRoute: ActivatedRoute) {
     this.repo = this._activatedRoute.snapshot.paramMap.get('repo');
     this.workflow = this._activatedRoute.snapshot.paramMap.get('workflow');
@@ -82,15 +82,7 @@ export class ProfilePage implements OnInit {
     return b.value[0].createddate.localeCompare(a.value[0].createddate);
   }
   updateHistory(){
-    this.ApiService.getWorkflowID(this.workflow,this.repo).subscribe(id=>{
-      this.ApiService.getWorkflowHistory(id).subscribe(data=>{
-        this.history = data.map((i:any)=>{
-          return Object.assign({}, i.map((item: { Key: any;Value:any; })=>{return {[item.Key]:item.Value}}).reduce((current: any, next: any) => {
-            return { ...current, ...next};
-          }, {}))
-        })
-      })
-    })
+    this.history = this.ApiService.getWorkflowHistory(this.workflow,this.repo)
   }
 
   ngOnDestroy(): void {

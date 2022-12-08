@@ -1,1 +1,83 @@
-repos work
+<section>
+  <!-- <h1>Home</h1> -->
+
+    <table datatable [dtOptions]="dtOptions" class="dataTable row-border hover">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <tr>
+            <th class="py-3 px-6">
+                Name
+            </th>
+            <th class="py-3 px-6">
+                Description
+            </th>
+            <th class="py-3 px-6">
+                Path
+            </th>
+            <th class="py-3 px-6">
+              Type
+            </th>
+            <th class="py-3 px-6">
+              Subfolder
+            </th>
+            <th class="py-3 px-6">
+              Branch
+            </th>
+        </tr>
+    </thead>
+      <tbody>
+
+        <tr
+          *ngFor="let item of repos"
+          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+          <td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+            {{item.name}}
+          </td>
+          <td class="py-4 px-6">
+            {{item.description}}
+          </td>
+          <td class="py-4 px-6">
+            {{item.location.path}}
+          </td>
+          <td class="py-4 px-6">
+            {{item.location.type}}
+          </td>
+          <td class="py-4 px-6">
+            {{item.location.subfolder}}
+          </td>
+          <td class="py-4 px-6">
+            {{item.location.branch}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  <!-- <div class="mt-12">
+    <h3 class="h5">Settings</h3>
+    <ul>
+      <li>
+        <a class="text-sm link" routerLink="/settings/accessibility"> Accessibility </a>
+      </li>
+      <li>
+        <a class="text-sm link" routerLink="/settings/account"> Account </a>
+      </li>
+      <li>
+        <a class="text-sm link" routerLink="/settings/appearance"> Appearance </a>
+      </li>
+    </ul>
+  </div> -->
+
+  <!-- <div class="mt-6">
+    <h3 class="h5">Profiles</h3>
+    <ul>
+      <li>
+        <a class="text-sm link" routerLink="/maria" text-sm> Maria </a>
+      </li>
+      <li>
+        <a class="text-sm link" routerLink="/pedro" text-sm> Pedro </a>
+      </li>
+      <li>
+        <a class="text-sm link" routerLink="/sara" text-sm> Sara </a>
+      </li>
+    </ul>
+  </div> -->
+</section>
