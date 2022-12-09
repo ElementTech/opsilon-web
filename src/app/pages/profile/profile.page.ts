@@ -11,6 +11,7 @@ import {LogMessage} from 'ngx-log-monitor';
 import { ThemeService } from '@lib/services';
 import { AppTheme } from '@lib/services/theme';
 import {NgxGraphModule} from '@swimlane/ngx-graph'
+import { webSocket } from "rxjs/webSocket";
 
 @Component({
   standalone: true,
@@ -23,7 +24,7 @@ export class ProfilePage implements OnInit {
   restoredLogs: LogMessage[] = [
 
   ];
-  status = "Not Running"
+  status = ""
   logs: LogMessage[] = [
     {message: 'A simple log message'},
     {message: 'A success message', type: 'SUCCESS'},
@@ -42,12 +43,14 @@ export class ProfilePage implements OnInit {
   workflow!: string | null;
   workflows!: Observable<any> | null;
   id: string | undefined;
-  history: Observable<any> | null | undefined;
+  history: any[]= [];
   constructor(private _themeService: ThemeService,private ApiService: ApiService,private _activatedRoute: ActivatedRoute) {
     this.repo = this._activatedRoute.snapshot.paramMap.get('repo');
     this.workflow = this._activatedRoute.snapshot.paramMap.get('workflow');
   }
+  runid = "";
   currentTheme: any;
+  // runningHistory: any[]= [];
   private _destroy$ = new Subject();
 
   node1 = {id: 'Node 1', width: 100, height: 50};
@@ -57,9 +60,85 @@ export class ProfilePage implements OnInit {
     nodes: [this.node1, this.node2],
     edges: [this.edge1],
   };
+  tempLogs: LogMessage[] = [
+
+  ];
+  processWSLog(msg:any){
+  //   {
+  //     "_id": {
+  //         "_data": "8263935890000000012B022C0100296E5A1004F2A13BC345B6407CB9C9120326974ED946645F6964006463935890C41AD6B85B7E301B0004"
+  //     },
+  //     "clusterTime": {
+  //         "T": 1670600848,
+  //         "I": 1
+  //     },
+  //     "documentKey": {
+  //         "_id": "63935890c41ad6b85b7e301b"
+  //     },
+  //     "fullDocument": {
+  //         "_id": "63935890c41ad6b85b7e301b",
+  //         "createddate": "2022-12-09T17:47:28.276+02:00",
+  //         "log": "[write a file:writefile] Evaluating If Statement: $arg3 != \"\", with the following variables: [{filename testValue} {onlyhere something} {arg1 f} {arg2 defaultvalue} {arg3 fsad}]",
+  //         "runid": "c8baf114-77d8-11ed-bd30-acde48001122",
+  //         "stage": "writefile",
+  //         "updateddate": "2022-12-09T17:47:30.276+02:00",
+  //         "workflow": "4371302350013818559"
+  //     },
+  //     "ns": {
+  //         "coll": "logs",
+  //         "db": "opsilon"
+  //     },
+  //     "operationType": "insert",
+  //     "wallTime": "2022-12-09T17:47:28.299+02:00"
+  // }
+    const exists = this.history.filter(item=>((item.Workflow==msg.fullDocument.workflow)&&(item.RunID==msg.fullDocument.runid)))
+    if (exists.length == 0) {
+        this.history.push({
+          "SkippedStages": 0,
+          "FailedStages": 0,
+          "SuccessfulStages": 0,
+          "Workflow": msg.fullDocument.workflow,
+          "RunID": msg.fullDocument.runid,
+          "Logs": [
+              msg.fullDocument.log
+          ],
+          "Result": "unknown",
+          "RunTime": 0,
+          "StartTime": msg.fullDocument.createddate,
+          "EndTime": msg.fullDocument.updateddate
+      })
+      if (msg.fullDocument.stage!="system" && (this.runid == msg.fullDocument.runid)){
+        this.tempLogs.push({message: msg.fullDocument.log})
+      }
+    } else {
+      this.history = this.history.map(item=>{
+        if ((item.Workflow==msg.fullDocument.workflow)&&(item.RunID==msg.fullDocument.runid)){
+          item.Logs.push(msg.fullDocument.log)
+          if (msg.fullDocument.stage=="system"){
+            item.RunTime=msg.fullDocument.log
+          } else if (this.runid == item.RunID) {
+            this.tempLogs.push({message: msg.fullDocument.log})
+          }
+          item.Result="unknown"
+        }
+        return item
+      })
+      if (msg.fullDocument.stage=="system"&&msg.fullDocument.log=="done"){
+        this.updateHistory()
+        this.logStream$=undefined
+      }
+    }
+
+  }
 
   ngOnInit(){
+    const subject = webSocket('ws://' + window.location.host + '/ws');
 
+    subject.subscribe(
+       msg => this.processWSLog(msg), // Called whenever there is a message from the server.
+       err => console.log(err), // Called if at any point WebSocket API signals some kind of error.
+       () => console.log('complete') // Called when connection is closed (for whatever reason).
+     );
 
 
     this._themeService.currentTheme$
@@ -78,7 +157,9 @@ export class ProfilePage implements OnInit {
     return b.value[0].createddate.localeCompare(a.value[0].createddate);
   }
   updateHistory(){
-    this.history = this.ApiService.getWorkflowHistory(this.workflow,this.repo)
+    this.ApiService.getWorkflowHistory(this.workflow,this.repo).subscribe(data=>{
+      this.history=data;
+    })
   }
 
   ngOnDestroy(): void {
@@ -99,11 +180,18 @@ export class ProfilePage implements OnInit {
         return
     }
   }
-  restoreLogs(logs: string[]){
-    this.restoredLogs = logs.map((item: string)=>{
-      return {message: item}
-    })
-
+  restoreLogs(logs: string[],result: any,runid: string){
+    if (result != "unknown") {
+      this.restoredLogs = logs.map((item: string)=>{
+        return {message: item}
+      })
+    } else {
+      this.restoredLogs = [];
+      this.logStream$= timer(0, 100).pipe(
+        map(i => this.tempLogs[i])
+      );
+      this.runid = runid
+    }
   }
   play() {
     const inputs = Array.prototype.slice.call(document.querySelectorAll('input[name=input]'))
@@ -112,10 +200,9 @@ export class ProfilePage implements OnInit {
       inputMap[item.id] = item.value
     })
     this.workflows?.subscribe(items=>{
-      const chosen = items.filter((item: { ID: string | null; Repo: string | null; Input: string | any[]; })=>(item.ID===this.workflow)&&(item.Repo===this.repo)&&(inputs.length==item.Input.length))
+      const chosen = items.filter((item: { ID: string | null; Repo: string | null; Input: string | any[]; })=>(item.ID===this.workflow)&&(item.Repo===this.repo)&&(inputs.length==(item.Input != null ? item.Input.length : 0)))
       if (chosen.length != 0){
-        this.status="Running..."
-
+        // this.status=""
         this.logStream$ = this.ApiService.runWorkflow({
           Args: inputMap,
           Repo: this.repo,
@@ -125,7 +212,7 @@ export class ProfilePage implements OnInit {
             delay(1000),
             map((i:any)=> {
             return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}
-          }),finalize(()=>{this.status="Not Running";this.updateHistory()})
+          }),finalize(()=>{this.status="";this.updateHistory()})
         );
 
 
