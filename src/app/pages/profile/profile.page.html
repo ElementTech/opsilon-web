@@ -3,32 +3,33 @@
 class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 justify-between text-center" style="vertical-align: middle;">
 
 
-  <div class="w-1/3 justify-start mainnav flex border border-gray-200 dark:border-gray-700">
+  <div class="w-1/3 justify-start mainnav flex ">
     <button (click)="play()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
       <i class="fa fa-2x fa-play-circle" aria-hidden="true"></i>
     </button>
    <span class="dark:text-white pt-2.5">{{status}}</span>
   </div>
 
-  <div class="w-1/3 justify-center flex border border-gray-200 dark:border-gray-700" *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
+  <div class="w-1/3 justify-center flex " *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
 
       <h5 class="text-2xl text-gray-900 dark:text-white">{{w.ID}}</h5>
-      <sub>{{w.Repo}}</sub>
+      <sub class="pt-4">{{w.Repo}}</sub>
 
   </div>
-    <div class="w-1/3 border border-gray-200 align-middle dark:border-gray-700" *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
+    <!-- <div class="w-1/3 grid grid-cols-12 border border-gray-200 align-middle dark:border-gray-700" *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
 
-            <span  *ngFor="let stage of w.Stages" class="bg-blue-100 text-blue-800 text-xs font-semibold m-1 px-2.5 dark:bg-blue-200 dark:text-blue-800">
+            <span  *ngFor="let stage of w.Stages" class="bg-blue-100 text-blue-800 text-xs max-w-min  m-1 px-2.5 dark:bg-blue-200 dark:text-blue-800">
               {{stage.Stage}}: {{stage.ID}}
             </span>
 
-    </div>
+    </div> -->
+    <div class="w-1/3"></div>
 
 </nav>
-<div class="grid grid-cols-4 gap-4">
-  <a  class="h-100 block mb-3 bg-white border border-gray-200 shadow-md  dark:bg-gray-800 dark:border-gray-700 ">
+<div class="grid grid-cols-4 gap-4" >
+  <a  class="h-100 block mb-3 bg-white border border-gray-200 shadow-md  dark:bg-gray-800 dark:border-gray-700 overflow-auto" style="height: 52rem;">
     <!-- <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">History</h5> -->
-    <div class="font-normal text-gray-700 dark:text-gray-400">
+    <div class="font-normal text-gray-700 dark:text-gray-400" >
       <ul class=" text-gray-500 dark:text-gray-400" *ngIf="(history)">
         <li class="border p-1 w-100 border-gray-200 dark:border-gray-700"  *ngFor="let w of ((history) | reverse); index as i">
             <!-- <i class="fa fa-2x fa-question-circle" aria-hidden="true"></i>&nbsp;  | groupBy: 'runid' -->
@@ -75,7 +76,7 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
 
       <a *ngIf="w['Input']"  class="col-span-3 block p-6 mb-3 bg-white border border-gray-200 rounded-lg shadow-md hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Inputs</h5>
-        <div class="font-normal text-gray-700 dark:text-gray-400">
+        <div class="font-normal text-gray-700 dark:text-gray-400 grid grid-cols-4 gap-1">
 
             <div *ngFor="let input of w.Input">
               <div class="mb-2" *ngIf="(input.Optional === true) || (input.Optional === false && input.Default !== '')">
@@ -102,7 +103,8 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
 
     <!--     [history]="restoredLogs" -->
     </div>
-    <log-monitor
+    <div   style="height: 50rem;">
+      <log-monitor
       [history]="restoredLogs"
       [logStream]="logStream$ | async"
       [theme]="currentTheme"
@@ -110,6 +112,8 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
       [animated]="true"
       [icons]="true"
       ></log-monitor>
+    </div>
+
   </div>
 
 
