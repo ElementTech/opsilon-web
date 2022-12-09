@@ -2,7 +2,7 @@ import { CommonModule, KeyValue } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { buffer, bufferCount, catchError, concatAll, concatMap, delay, finalize, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
+import { buffer, bufferCount, catchError, concatAll, concatMap, delay, finalize, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, startWith, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Filter } from '@lib/pipes/filter.pipe';
 import {NgPipesModule} from 'ngx-pipes';
@@ -12,7 +12,8 @@ import { ThemeService } from '@lib/services';
 import { AppTheme } from '@lib/services/theme';
 import {NgxGraphModule} from '@swimlane/ngx-graph'
 import { webSocket } from "rxjs/webSocket";
-
+// ES6 Modules or TypeScript
+import Swal from 'sweetalert2'
 @Component({
   standalone: true,
   imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,NgxGraphModule,Filter],
@@ -203,6 +204,13 @@ export class ProfilePage implements OnInit {
       const chosen = items.filter((item: { ID: string | null; Repo: string | null; Input: string | any[]; })=>(item.ID===this.workflow)&&(item.Repo===this.repo)&&(inputs.length==(item.Input != null ? item.Input.length : 0)))
       if (chosen.length != 0){
         // this.status=""
+        Swal.fire({
+          title: 'Workflow Started',
+          timer: 1000,
+          icon: 'success',
+          showConfirmButton: false,
+          position: 'top-end',
+        });
         this.logStream$ = this.ApiService.runWorkflow({
           Args: inputMap,
           Repo: this.repo,
@@ -211,14 +219,20 @@ export class ProfilePage implements OnInit {
             concatAll(),
             delay(1000),
             map((i:any)=> {
-            return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}
+            {return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}}
           }),finalize(()=>{this.status="";this.updateHistory()})
         );
 
 
       } else {
         setTimeout(function(){
-          alert("Input Invalid");
+          Swal.fire({
+            title: 'Error',
+            text: 'Input Invalid',
+            icon: 'error',
+            confirmButtonText: 'Confirm',
+            timer: 1500,
+          })
        }, 2000);//wait 2 seconds
       }
     })

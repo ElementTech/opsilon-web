@@ -13,3 +13,4 @@
 /* utilities */
 @import './tailwindcss/utilities.css';
 @import './03-utilities/border.css';
+@import url("https://cdn.jsdelivr.net/npm/daisyui@2.43.0/dist/full.css");

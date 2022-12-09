@@ -1,55 +1,102 @@
 <section>
   <!-- <h1>Home</h1> -->
+<div class="grid grid-cols-3 gap-2">
 
-    <table datatable [dtOptions]="dtOptions" class="dataTable row-border hover">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-        <tr>
-            <th class="py-3 px-6">
-                Name
-            </th>
-            <th class="py-3 px-6">
-                Description
-            </th>
-            <th class="py-3 px-6">
-                Path
-            </th>
-            <th class="py-3 px-6">
-              Type
-            </th>
-            <th class="py-3 px-6">
-              Subfolder
-            </th>
-            <th class="py-3 px-6">
-              Branch
-            </th>
-        </tr>
-    </thead>
-      <tbody>
+<form class="col-span-1 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+  <div class="grid gap-6 mb-6 md:grid-cols-2">
+      <div>
+          <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+          <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Repository" required>
+      </div>
+      <div>
+          <label for="subfolder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subfolder</label>
+          <input type="text" id="subfolder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="examples/workflows/examples" required>
+      </div>
+      <div>
+          <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
+          <input type="url" id="url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="main" required>
+      </div>
+  </div>
+  <div  class="mb-6">
+    <label for="path" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Path</label>
+    <input type="url" id="path" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://github.com/jatalocks/opsilon.git" required>
+  </div>
+  <div class="mb-6">
 
-        <tr
-          *ngFor="let item of repos"
-          class="bg-white border-b dark:bg-gray-800 dark:border-gray-700  dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-            {{item.name}}
-          </td>
-          <td class="py-4 px-6">
-            {{item.description}}
-          </td>
-          <td class="py-4 px-6">
-            {{item.location.path}}
-          </td>
-          <td class="py-4 px-6">
-            {{item.location.type}}
-          </td>
-          <td class="py-4 px-6">
-            {{item.location.subfolder}}
-          </td>
-          <td class="py-4 px-6">
-            {{item.location.branch}}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+    <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description about this repository for your users..."></textarea>
+
+  </div>
+  <div class="mb-6">
+    <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a type</label>
+    <select id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <option selected value="git">Git</option>
+      <option value="folder">Local Server</option>
+    </select>
+  </div>
+<!--
+  <div class="flex items-start mb-6">
+      <div class="flex items-center h-5">
+      <input id="remember" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" required>
+      </div>
+      <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
+  </div> -->
+  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+</form>
+<div class="col-span-2">
+  <table datatable [dtOptions]="dtOptions" class="ui  celled table dataTable row-border hover">
+    <thead>
+      <tr>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+              Name
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+              Description
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+              Path
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            Type
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            Subfolder
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            Branch
+          </th>
+      </tr>
+  </thead>
+    <tbody>
+
+      <tr
+        *ngFor="let item of repos"
+        >
+        <td class="py-4 px-6 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.name}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.description}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.location.path}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.location.type}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.location.subfolder}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          {{item.location.branch}}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div>
+
 
   <!-- <div class="mt-12">
     <h3 class="h5">Settings</h3>
