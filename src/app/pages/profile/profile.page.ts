@@ -156,7 +156,7 @@ export class ProfilePage implements OnInit {
     })
   }
   ngOnInit(){
-    const subject = webSocket((window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + window.location.host + '/ws');
+    const subject = webSocket((window.location.protocol === 'https:' ? 'wss:' : 'ws:') + '//' + window.location.host + '/api/v1/ws');
 
     subject.subscribe(
        msg => this.processWSLog(msg), // Called whenever there is a message from the server.
