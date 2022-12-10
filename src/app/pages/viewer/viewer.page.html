@@ -1,0 +1,6 @@
+<!-- <nu-monaco-editor #a [model]="{'value':'test'}" [options]="options" [disabled]="disabled"></nu-monaco-editor> -->
+
+<div *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
+  <nu-monaco-editor  style="height: 90vh;" [model]="{'value': (yaml.stringify(w)),'language': 'yaml'}" [options]="options" [disabled]="disabled"></nu-monaco-editor>
+</div>
+

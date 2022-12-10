@@ -28,6 +28,11 @@ export const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
+    path: 'viewer/:repo/:workflow',
+    loadChildren: async () => (await import('@pages/viewer/viewer.routes')).ROUTES,
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'settings',
     loadChildren: async () => (await import('@pages/settings/settings.routes')).ROUTES,
     canLoad: [AuthGuard],

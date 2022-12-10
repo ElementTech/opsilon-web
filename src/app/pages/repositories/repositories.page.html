@@ -1,35 +1,35 @@
 <section>
   <!-- <h1>Home</h1> -->
 <div class="grid grid-cols-3 gap-2">
-
-<form class="col-span-1 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+<form #repoForm="ngForm" class="col-span-1 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
   <div class="grid gap-6 mb-6 md:grid-cols-2">
       <div>
           <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-          <input type="text" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Repository" required>
+          <input  [(ngModel)]="model.Name" type="text" name="name"  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Repository" required>
       </div>
+
       <div>
-          <label for="subfolder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subfolder</label>
-          <input type="text" id="subfolder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="examples/workflows/examples" required>
-      </div>
-      <div>
-          <label for="url" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
-          <input type="url" id="url" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="main" required>
+          <label for="branch" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Branch</label>
+          <input [(ngModel)]="model.Location.Branch" type="text" name="branch" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="main" required>
       </div>
   </div>
+  <div class="mb-6">
+    <label for="subfolder" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subfolder</label>
+    <input [(ngModel)]="model.Location.Subfolder" type="text" name="subfolder" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="examples/workflows/examples" required>
+</div>
   <div  class="mb-6">
     <label for="path" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Path</label>
-    <input type="url" id="path" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://github.com/jatalocks/opsilon.git" required>
+    <input [(ngModel)]="model.Location.Path" type="text" name="path" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="https://github.com/jatalocks/opsilon.git" required>
   </div>
   <div class="mb-6">
 
     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-    <textarea id="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description about this repository for your users..."></textarea>
+    <textarea name="description" [(ngModel)]="model.Description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description about this repository for your users..."></textarea>
 
   </div>
   <div class="mb-6">
     <label for="type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a type</label>
-    <select id="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+    <select [(ngModel)]="model.Location.Type" name="type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option selected value="git">Git</option>
       <option value="folder">Local Server</option>
     </select>
@@ -41,7 +41,7 @@
       </div>
       <label for="remember" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I agree with the <a href="#" class="text-blue-600 hover:underline dark:text-blue-500">terms and conditions</a>.</label>
   </div> -->
-  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+  <button type="submit" (click)="newRepo()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
 </form>
 <div class="col-span-2">
   <table datatable [dtOptions]="dtOptions" class="ui  celled table dataTable row-border hover">
@@ -64,6 +64,9 @@
           </th>
           <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             Branch
+          </th>
+          <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+
           </th>
       </tr>
   </thead>
@@ -89,6 +92,11 @@
         </td>
         <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
           {{item.location.branch}}
+        </td>
+        <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <button class="btn btn-circle btn-outline" (click)="deleteRepo(item.name)">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          </button>
         </td>
       </tr>
     </tbody>

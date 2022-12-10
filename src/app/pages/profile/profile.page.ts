@@ -26,6 +26,7 @@ export class ProfilePage implements OnInit {
 
   ];
   status = ""
+  outputs = [];
   logs: LogMessage[] = [
     {message: 'A simple log message'},
     {message: 'A success message', type: 'SUCCESS'},
@@ -103,6 +104,7 @@ export class ProfilePage implements OnInit {
           "Logs": [
               msg.fullDocument.log
           ],
+          "Outputs": [],
           "Result": "unknown",
           "RunTime": 0,
           "StartTime": msg.fullDocument.createddate,
@@ -131,7 +133,28 @@ export class ProfilePage implements OnInit {
     }
 
   }
-
+  showOutputs(outputs=[]){
+    const html = '<table class="table" style="width:100%"><thead><th>Name</th><th>Value</th></thead><tbody>' +
+      outputs.map(item=>'<tr><td>'+item["Name"]+'</td><td>'+item["Value"]+'</td></tr>')
+    '</tbody></table>'
+    Swal.fire({
+      // title: '<strong>HTML <u>example</u></strong>',
+      // icon: 'info',
+      showCloseButton: false,
+      showCancelButton: false,
+      showConfirmButton: false,
+      html:html,
+      // showCloseButton: true,
+      // showCancelButton: true,
+      // focusConfirm: false,
+      // confirmButtonText:
+      //   '<i class="fa fa-thumbs-up"></i> Great!',
+      // confirmButtonAriaLabel: 'Thumbs up, great!',
+      // cancelButtonText:
+      //   '<i class="fa fa-thumbs-down"></i>',
+      // cancelButtonAriaLabel: 'Thumbs down'
+    })
+  }
   ngOnInit(){
     const subject = webSocket('ws://' + window.location.host + '/ws');
 
@@ -193,6 +216,42 @@ export class ProfilePage implements OnInit {
       );
       this.runid = runid
     }
+  }
+  public deleteRun(name:string) {
+    Swal.fire({
+      title: 'Do you want to delete this run?',
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: 'Confirm',
+      denyButtonText: `Cancel`,
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+        this.ApiService.deleteText("run/delete",name).subscribe((data)=>{
+          Swal.fire({
+            title: 'Run Deleted',
+            timer: 1000,
+            text: data,
+            icon: 'success',
+            showConfirmButton: false,
+            position: 'top-end',
+          });
+
+          this.updateHistory()
+        }, err=>{
+          Swal.fire({
+            title: 'Error',
+            text: err,
+            icon: 'error',
+            confirmButtonText: 'Confirm',
+            timer: 5000,
+          })
+        })
+      } else if (result.isDenied) {
+        // Swal.fire('Changes are not saved', '', 'info')
+      }
+    })
+
   }
   play() {
     const inputs = Array.prototype.slice.call(document.querySelectorAll('input[name=input]'))

@@ -6,6 +6,7 @@ import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
 import { JwtInterceptor, ServerErrorInterceptor } from './app/lib/interceptors';
 import { environment } from './environments/environment';
+import { NU_MONACO_EDITOR_CONFIG,NuMonacoEditorModule } from '@ng-util/monaco-editor';
 
 if (environment.production) {
   enableProdMode();
@@ -13,6 +14,7 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
+    importProvidersFrom(NuMonacoEditorModule.forRoot()),
     importProvidersFrom(RouterModule.forRoot(routes), HttpClientModule),
     {
       provide: HTTP_INTERCEPTORS,
@@ -26,3 +28,8 @@ bootstrapApplication(AppComponent, {
     },
   ],
 }).catch((error) => console.error(error));
+
+import './polyfills';
+
+
+

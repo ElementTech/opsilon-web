@@ -50,9 +50,13 @@ export class ApiService {
     return this.http.post(`${this.baseURL}/${route}`,data,{responseType:"json"})
   }
 
-  delete(route: string, item: string): Observable<any> {
+  deleteJson(route: string, item: string): Observable<any> {
     return this.http.delete(`${this.baseURL}/${route}/${item}`)
   }
+  deleteText(route: string, item: string): Observable<any> {
+    return this.http.delete(`${this.baseURL}/${route}/${item}`,{responseType:'text'})
+  }
+
 
 
   // postData(data: any): Observable<any> {

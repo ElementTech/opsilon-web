@@ -17,27 +17,35 @@
             <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                 Input
             </th>
+            <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          </th>
         </tr>
     </thead>
       <tbody>
 
         <tr
-          routerLink="/{{item.Repo}}/{{item.ID}}"
+
           *ngFor="let item of workflows"
         >
-          <td class="py-4 px-6 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-white ">
+          <td routerLink="/{{item.Repo}}/{{item.ID}}" class="py-4 px-6 font-medium dark:bg-gray-800 dark:border-gray-700 dark:text-white ">
             {{item.ID}}
           </td>
-          <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <td routerLink="/{{item.Repo}}/{{item.ID}}" class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             {{item.Repo}}
           </td>
-          <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <td routerLink="/{{item.Repo}}/{{item.ID}}" class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             {{item.Description}}
           </td>
-          <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+          <td routerLink="/{{item.Repo}}/{{item.ID}}" class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
             <span *ngFor="let input of item.Input" class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
               {{input.Name}}
             </span>
+          </td>
+          <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
+            <button class="btn gap-2" routerLink="/viewer/{{item.Repo}}/{{item.ID}}">
+              <i class="fa fa-code" aria-hidden="true"></i>
+              Code
+            </button>
           </td>
         </tr>
       </tbody>

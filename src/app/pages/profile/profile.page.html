@@ -31,11 +31,12 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
     <!-- <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">History</h5> -->
     <div class="font-normal text-gray-700 dark:text-gray-400" >
       <ul class=" text-gray-500 dark:text-gray-400" *ngIf="(history)">
+
         <li class="border p-1 w-100 border-gray-200 dark:border-gray-700"  *ngFor="let w of ((history) | reverse); index as i">
             <!-- <i class="fa fa-2x fa-question-circle" aria-hidden="true"></i>&nbsp;  | groupBy: 'runid' -->
 
         <div *ngIf="(w.Result); else elseDanger" (click)="restoreLogs(w.Logs,w.Result,w.RunID)" style="cursor:pointer;" id="toast-success" class="hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center  w-full  text-gray-500 bg-white  dark:text-gray-400 dark:bg-gray-800" role="alert">
-            <div *ngIf="(w.Result) === true" class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200">
+          <div *ngIf="(w.Result) === true" class="inline-flex flex-shrink-0 justify-center items-center w-8 h-8 text-green-500 bg-green-100 dark:bg-green-800 dark:text-green-200">
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
                 <span class="sr-only">Check icon</span>
             </div>
@@ -43,12 +44,20 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
               <i class="fa fa-question" aria-hidden="true"></i>
             </div>
             <div class="ml-3 text-sm font-normal">
+
               <i class="fa fa-clock" aria-hidden="true"></i> Runtime: {{w.RunTime}} <br>
               <i class="fa fa-calendar" aria-hidden="true"></i> Started: {{w.StartTime | date:'short'}} <br>
               <i class="fa fa-check text-green-400" aria-hidden="true"></i> {{w.SuccessfulStages}} /
               <i class="fa fa-times text-red-400" aria-hidden="true"></i> {{w.FailedStages}} /
               <i class="fa fa-question" aria-hidden="true"></i> {{w.SkippedStages}}
             </div>
+            <button *ngIf="w.Outputs" (click)="showOutputs(w.Outputs)" type="button" class="ml-auto text-grey-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium  text-sm text-center items-center mr-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+              Outputs<i class="fa fa-archive" aria-hidden="true"></i>
+            </button>
+            <button (click)="deleteRun(w.RunID)" type="button" class="ml-auto text-grey-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium  text-sm text-center items-center mr-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
         </div>
         <ng-template #elseDanger>
           <div id="toast-danger" (click)="restoreLogs(w.Logs,w.Result,w.RunID)"  style="cursor:pointer;" class="hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center w-full  text-gray-500 bg-white dark:text-gray-400 dark:bg-gray-800" role="alert">
@@ -57,12 +66,19 @@ class="bg-white mainnav flex flex-auto border-gray-200 mb-2 dark:bg-gray-900 jus
                 <span class="sr-only">Error icon</span>
             </div>
             <div class="ml-3 text-sm font-normal">
+
               <i class="fa fa-clock" aria-hidden="true"></i> Runtime: {{w.RunTime}} <br>
               <i class="fa fa-calendar" aria-hidden="true"></i> Started: {{w.StartTime | date:'short'}} <br>
               <i class="fa fa-check text-green-400" aria-hidden="true"></i> {{w.SuccessfulStages}} /
               <i class="fa fa-times text-red-400" aria-hidden="true"></i> {{w.FailedStages}} /
               <i class="fa fa-question" aria-hidden="true"></i> {{w.SkippedStages}}
             </div>
+            <button *ngIf="w.Outputs" (click)="showOutputs(w.Outputs)" type="button" class=" ml-auto text-grey-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium  text-sm text-center items-center mr-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+              Outputs<i class="fa fa-archive" aria-hidden="true"></i>
+            </button>
+            <button (click)="deleteRun(w.RunID)" type="button" class=" ml-auto text-grey-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium  text-sm text-center items-center mr-2 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
           </div>
         </ng-template>
         </li>
