@@ -1,7 +1,7 @@
 import { CommonModule, KeyValue } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { buffer, bufferCount, catchError, concatAll, concatMap, delay, finalize, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, startWith, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Filter } from '@lib/pipes/filter.pipe';
@@ -14,9 +14,10 @@ import {NgxGraphModule} from '@swimlane/ngx-graph'
 import { webSocket } from "rxjs/webSocket";
 // ES6 Modules or TypeScript
 import Swal from 'sweetalert2'
+import { ViewerPage } from '@lib/components/viewer/viewer.page';
 @Component({
   standalone: true,
-  imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,NgxGraphModule,Filter],
+  imports: [CommonModule,FormsModule,LogMonitorModule,NgPipesModule,NgxGraphModule,Filter,ViewerPage,RouterModule],
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.css'],
 })
@@ -39,6 +40,7 @@ export class ProfilePage implements OnInit {
   //   take(this.logs.length),
   //   map(i => this.logs[i])
   // );
+  currentTab = 1;
   wLog$!: Observable<any>;
   args: Map<string, string> = new Map();
   repo!: string | null;
@@ -55,13 +57,7 @@ export class ProfilePage implements OnInit {
   // runningHistory: any[]= [];
   private _destroy$ = new Subject();
 
-  node1 = {id: 'Node 1', width: 100, height: 50};
-  node2 = {id: 'Node 2', width: 100, height: 50};
-  edge1 = {src: this.node1, dest: this.node2, points: []};
-  myGraphData = {
-    nodes: [this.node1, this.node2],
-    edges: [this.edge1],
-  };
+
   tempLogs: LogMessage[] = [
 
   ];

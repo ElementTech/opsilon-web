@@ -1,16 +1,16 @@
 /* base */
 @import './tailwindcss/base.css';
-@import './01-base/variables.css';
+/* @import './01-base/variables.css'; */
 @import './01-base/document.css';
-@import './01-base/font.css';
-@import './01-base/heading.css';
+/* @import './01-base/font.css'; */
+/* @import './01-base/heading.css'; */
 
 /* components */
 @import './tailwindcss/components.css';
-@import './02-components/link.css';
-@import './02-components/button.css';
+/* @import './02-components/link.css'; */
+/* @import './02-components/button.css'; */
 
 /* utilities */
 @import './tailwindcss/utilities.css';
-@import './03-utilities/border.css';
-@import url("https://cdn.jsdelivr.net/npm/daisyui@2.43.0/dist/full.css");
+/* @import './03-utilities/border.css'; */
+/* @import url("https://cdn.jsdelivr.net/npm/daisyui@2.43.0/dist/full.css"); */

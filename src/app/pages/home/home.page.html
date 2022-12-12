@@ -2,7 +2,7 @@
   <!-- <h1>Home</h1> -->
 
 
-    <table datatable [dtOptions]="dtOptions" class="dataTable ui celled table row-border hover ">
+    <table datatable [dtOptions]="dtOptions" class="table  hover text-sm">
       <thead>
         <tr>
             <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
@@ -42,7 +42,7 @@
             </span>
           </td>
           <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-            <button class="btn gap-2" routerLink="/viewer/{{item.Repo}}/{{item.ID}}">
+            <button class="btn btn-xs" routerLink="/viewer/{{item.Repo}}/{{item.ID}}">
               <i class="fa fa-code" aria-hidden="true"></i>
               Code
             </button>
