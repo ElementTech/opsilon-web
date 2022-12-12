@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import {HistoryPage} from '@lib/components/history/history.page'
 import { LogMessage } from 'ngx-log-monitor';
 import { map, Observable, timer } from 'rxjs';
 import { webSocket } from 'rxjs/webSocket';
 import { ApiService } from 'src/app/services/api.service';
 @Component({
-  selector: 'app-history',
+  selector: 'app-history-page',
   standalone: true,
-  imports: [HistoryPage],
+  imports: [HistoryPage,RouterModule],
   templateUrl: './history.component.html',
   styleUrls: ['./history.component.css']
 })

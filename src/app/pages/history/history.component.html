@@ -1,1 +1,6 @@
+<div class="navbar bg-white dark:bg-gray-800 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" >
+  <a class="btn btn-ghost normal-case text-xl" routerLink="/{{repo}}/{{workflow}}">{{workflow}}</a>
+  <sub class="pt-4">{{repo}}</sub>
+</div>
+
 <app-history [restoredLogs]="restoredLogs" [logStream$]="logStream$"></app-history>
