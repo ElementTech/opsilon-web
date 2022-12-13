@@ -40,8 +40,10 @@ export class HistoryPage implements OnInit, OnDestroy, OnChanges {
 
   }
   ngOnChanges(changes: SimpleChanges) {
-
-    this.logStream$ = changes['logStream$'].currentValue
+    if (changes['logStream$'] != undefined)
+    {
+      this.logStream$ = changes['logStream$'].currentValue
+    }
     // You can also use categoryId.previousValue and
     // categoryId.firstChange for comparing old and new values
 

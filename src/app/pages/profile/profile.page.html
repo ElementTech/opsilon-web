@@ -18,7 +18,7 @@
 
 </nav> -->
 <div class="navbar bg-white dark:bg-gray-800 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" *ngFor="let w of ((workflows | async) | filter:{'ID':workflow,'Repo':repo})">
-  <a class="btn  btn-outline normal-case text-xl" routerLink="/{{w.Repo}}/{{w.ID}}">{{w.ID}}</a>
+  <a class="btn  btn-outline dark:text-white normal-case text-xl" routerLink="/{{w.Repo}}/{{w.ID}}">{{w.ID}}</a>
   <sub class="pt-4 pl-1">{{w.Repo}}</sub>
 </div>
 <div class="border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
