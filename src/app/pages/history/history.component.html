@@ -1,6 +1,30 @@
 <div class="navbar bg-white dark:bg-gray-800 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" >
-  <a class="btn btn-ghost normal-case text-xl" routerLink="/{{repo}}/{{workflow}}">{{workflow}}</a>
-  <sub class="pt-4">{{repo}}</sub>
+  <div class="navbar-start">
+    <a class="btn  btn-outline normal-case text-xl" routerLink="/{{repo}}/{{workflowName}}">{{workflowName}}</a>
+    <sub class="pt-4 pl-1">{{repo}}</sub>
+  </div>
+
+  <div class="navbar-end">
+    <span class="badge">{{runid}}</span>
+
+  </div>
 </div>
 
+<div class="navbar bg-white dark:bg-gray-800 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" >
+  <div class="navbar-start">
+    <span class="countdown font-mono text-2xl">
+      <span style="--value:{{runtime}}"></span>s
+    </span>
+  </div>
+
+
+  <div class="navbar-end grid">
+    <span class="badge" *ngFor="let item of outputs">{{item.Name}}={{item.Value}}</span>
+  </div>
+</div>
+<div class="bg-white dark:bg-gray-800 dark:text-gray-300 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900" >
+  <progress *ngIf="result === true" class="progress progress-success w-100" value="100" max="100"></progress>
+  <progress *ngIf="!result" class="progress progress-error w-100" value="100" max="100"></progress>
+  <progress *ngIf="result === 'unknown'" class="progress w-100"></progress>
+</div>
 <app-history [restoredLogs]="restoredLogs" [logStream$]="logStream$"></app-history>

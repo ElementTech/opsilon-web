@@ -1,7 +1,7 @@
 import { CommonModule, KeyValue } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { buffer, bufferCount, catchError, concatAll, concatMap, delay, finalize, forkJoin, from, last, map, mergeAll, Observable, of, partition, pluck, scan, startWith, Subject, take, takeUntil, tap, timer, toArray } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Filter } from '@lib/pipes/filter.pipe';
@@ -48,7 +48,7 @@ export class ProfilePage implements OnInit {
   workflows!: Observable<any> | null;
   id: string | undefined;
   history: any[]= [];
-  constructor(private _themeService: ThemeService,private ApiService: ApiService,private _activatedRoute: ActivatedRoute) {
+  constructor(private _themeService: ThemeService,private ApiService: ApiService,private _activatedRoute: ActivatedRoute,private router: Router) {
     this.repo = this._activatedRoute.snapshot.paramMap.get('repo');
     this.workflow = this._activatedRoute.snapshot.paramMap.get('workflow');
   }
@@ -106,17 +106,17 @@ export class ProfilePage implements OnInit {
           "StartTime": msg.fullDocument.createddate,
           "EndTime": msg.fullDocument.updateddate
       })
-      if (msg.fullDocument.stage!="system" && (this.runid == msg.fullDocument.runid)){
-        this.tempLogs.push({message: msg.fullDocument.log})
-      }
+      // if (msg.fullDocument.stage!="system" && (this.runid == msg.fullDocument.runid)){
+      //   this.tempLogs.push({message: msg.fullDocument.log});
+      // }
     } else {
       this.history = this.history.map(item=>{
         if ((item.Workflow==msg.fullDocument.workflow)&&(item.RunID==msg.fullDocument.runid)){
-          item.Logs.push(msg.fullDocument.log)
+          // item.Logs.push(msg.fullDocument.log)
           if (msg.fullDocument.stage=="system"){
             item.RunTime=msg.fullDocument.log
           } else if (this.runid == item.RunID) {
-            this.tempLogs.push({message: msg.fullDocument.log})
+            // this.tempLogs.push({message: msg.fullDocument.log})
           }
           item.Result="unknown"
         }
@@ -124,7 +124,7 @@ export class ProfilePage implements OnInit {
       })
       if (msg.fullDocument.stage=="system"&&msg.fullDocument.log=="done"){
         this.updateHistory()
-        this.logStream$=undefined
+        // this.logStream$=undefined
       }
     }
 
@@ -266,19 +266,28 @@ export class ProfilePage implements OnInit {
           showConfirmButton: false,
           position: 'top-end',
         });
-        this.logStream$ = this.ApiService.runWorkflow({
-          Args: inputMap,
-          Repo: this.repo,
-          Workflow: this.workflow
-        }).pipe(
-            concatAll(),
-            delay(1000),
-            map((i:any)=> {
-            {return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}}
-          }),finalize(()=>{this.status="";this.updateHistory()})
-        );
 
 
+        // this.logStream$ = this.ApiService.runWorkflow({
+        //   Args: inputMap,
+        //   Repo: this.repo,
+        //   Workflow: this.workflow
+        // }).pipe(
+        //     concatAll(),
+        //     delay(1000),
+        //     map((i:any)=> {
+        //     {return {message: i.Logs[0], type:this.getType(i.Result,i.Skipped)}}
+        //   }),finalize(()=>{this.status="";this.updateHistory()})
+        // );
+
+        this.ApiService.runWorkflow({
+            Args: inputMap,
+            Repo: this.repo,
+            Workflow: this.workflow
+          }).subscribe()
+
+          this.currentTab = 2
+          this.updateHistory();
       } else {
         setTimeout(function(){
           Swal.fire({
