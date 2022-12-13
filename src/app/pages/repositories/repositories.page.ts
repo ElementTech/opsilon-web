@@ -50,8 +50,6 @@ export class RepositoriesPage {
 
      this.loadTable()
   }
-  powers = ['Really Smart', 'Super Flexible',
-            'Super Hot', 'Weather Changer'];
 
   model = new Repository("example",new RepoLocation("git","https://github.com/jatalocks/opsilon.git","examples/workflows/examples","main"),"");
 

@@ -34,6 +34,7 @@
     "angular-datatables": "^14.0.0",
     "d3-scale": "^4.0.2",
     "dag-maker": "^1.0.1",
+    "daisyui": "^2.43.0",
     "datatables.net": "^1.11.3",
     "datatables.net-dt": "^1.11.3",
     "flowbite": "^1.5.4",

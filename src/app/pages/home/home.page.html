@@ -1,8 +1,10 @@
 <section>
   <!-- <h1>Home</h1> -->
 
-
-    <table datatable [dtOptions]="dtOptions" class="dataTable ui celled table row-border hover ">
+  <div class="navbar bg-white dark:bg-gray-800 dark:text-gray-300 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
+    Workflows
+  </div>
+    <table datatable [dtOptions]="dtOptions" class="table hover table-responsive text-sm">
       <thead>
         <tr>
             <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
@@ -17,8 +19,7 @@
             <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
                 Input
             </th>
-            <th class="py-3 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-          </th>
+
         </tr>
     </thead>
       <tbody>
@@ -41,12 +42,7 @@
               {{input.Name}}
             </span>
           </td>
-          <td class="py-4 px-6 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-            <button class="btn gap-2" routerLink="/viewer/{{item.Repo}}/{{item.ID}}">
-              <i class="fa fa-code" aria-hidden="true"></i>
-              Code
-            </button>
-          </td>
+
         </tr>
       </tbody>
     </table>

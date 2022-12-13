@@ -18,6 +18,11 @@ export const routes: Routes = [
     canLoad: [AuthGuard],
   },
   {
+    path: 'history/:repo/:workflow/:runid',
+    loadChildren: async () => (await import('@pages/history/history.routes')).ROUTES,
+    canLoad: [AuthGuard],
+  },
+  {
     path: 'repositories',
     loadChildren: async () => (await import('@pages/repositories/repositories.routes')).ROUTES,
     canLoad: [AuthGuard],
@@ -25,11 +30,6 @@ export const routes: Routes = [
   {
     path: ':repo/:workflow',
     loadChildren: async () => (await import('@pages/profile/profile.routes')).ROUTES,
-    canLoad: [AuthGuard],
-  },
-  {
-    path: 'viewer/:repo/:workflow',
-    loadChildren: async () => (await import('@pages/viewer/viewer.routes')).ROUTES,
     canLoad: [AuthGuard],
   },
   {
