@@ -64,18 +64,8 @@ export class HistoryComponent implements OnInit {
     // }
     if ((this.runid == msg.fullDocument.runid) && (this.workflow == msg.fullDocument.workflow))
     {
-      if (msg.fullDocument.stage){
-        const num = this.tempLogs.push({message: msg.fullDocument.log})
-        this.logStream$ = timer(0, 100).pipe(
-          map(i =>
-            {
-              if (i==num)
-              {
-                return this.tempLogs[num]
-              }
-              return
-            }
-        ))
+      if (msg.fullDocument.stage!="system"){
+        this.tempLogs.push({message: msg.fullDocument.log})
         // this.tempLogs.pop()
       } else if (msg.fullDocument.log=="done") {
           this.tempLogs = []

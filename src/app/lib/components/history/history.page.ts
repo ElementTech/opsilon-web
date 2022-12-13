@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Filter } from '@lib/pipes/filter.pipe';
 import {NgPipesModule} from 'ngx-pipes';
 import {LogMessage, LogMonitorModule} from 'ngx-log-monitor';
@@ -19,7 +19,7 @@ import { ThemeService } from '@lib/services';
   styleUrls: ['./history.page.css'],
 })
 
-export class HistoryPage implements OnInit, OnDestroy  {
+export class HistoryPage implements OnInit, OnDestroy, OnChanges {
   @Input() outputs = [];
   @Input() logStream$:Observable<any> | undefined;
 
@@ -37,6 +37,13 @@ export class HistoryPage implements OnInit, OnDestroy  {
     this._themeService.currentTheme$
     .pipe(takeUntil(this._destroy$))
     .subscribe((theme) => (this.currentTheme = (theme?.toString() == "system" ? "light" : theme?.toString())));
+
+  }
+  ngOnChanges(changes: SimpleChanges) {
+
+    this.logStream$ = changes['logStream$'].currentValue
+    // You can also use categoryId.previousValue and
+    // categoryId.firstChange for comparing old and new values
 
   }
 
