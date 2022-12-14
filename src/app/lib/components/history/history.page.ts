@@ -19,7 +19,7 @@ import { ThemeService } from '@lib/services';
   styleUrls: ['./history.page.css'],
 })
 
-export class HistoryPage implements OnInit, OnDestroy, OnChanges {
+export class HistoryPage implements OnInit, OnDestroy {
   @Input() outputs = [];
   @Input() logStream$:Observable<any> | undefined;
 
@@ -39,15 +39,15 @@ export class HistoryPage implements OnInit, OnDestroy, OnChanges {
     .subscribe((theme) => (this.currentTheme = (theme?.toString() == "system" ? "light" : theme?.toString())));
 
   }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['logStream$'] != undefined)
-    {
-      this.logStream$ = changes['logStream$'].currentValue
-    }
-    // You can also use categoryId.previousValue and
-    // categoryId.firstChange for comparing old and new values
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['logStream$'] != undefined)
+  //   {
+  //     this.logStream$ = changes['logStream$'].currentValue
+  //   }
+  //   // You can also use categoryId.previousValue and
+  //   // categoryId.firstChange for comparing old and new values
 
-  }
+  // }
 
   ngOnDestroy(): void {
     this._destroy$.complete();
